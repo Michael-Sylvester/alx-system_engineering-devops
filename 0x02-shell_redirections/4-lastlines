@@ -1,1 +1,3 @@
-#!/bin/bash 5-firstlines 6-third_line 7-file
+#!/bin/bash
+tail -n 10 /etc/passwd
+
