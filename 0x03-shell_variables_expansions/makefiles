@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Check if the 'list' file exists
+if [ ! -e list ]; then
+    echo "The 'list' file does not exist."
+        exit 1
+	fi
+
+# Read each line from 'list' file and create a new file
+while IFS= read -r line; do
+    # Trim leading and trailing spaces from the line
+        line=$(echo "$line" | xargs)
+
+    # Check if the line is empty
+        if [ -z "$line" ]; then
+	        continue
+		    fi
+
+    # Create a new file with the corresponding name
+        filename="${line}"
+	    echo "#!/bin/bash" > "$filename"
+	    chmod 744 "$filename"
+
+    echo "Created file: $filename"
+    done < list
+
+echo "All files created successfully."
