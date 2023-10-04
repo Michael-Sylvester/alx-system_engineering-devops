@@ -1,1 +1,2 @@
 #!/bin/bash
+compgen -A variable -A function
