@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#Print a message 10 time with a while loop and an if 
+i=0
+while [ $i -lt 10 ]
+do
+	echo "Best School"
+	if [ $i -eq 8 ]; then
+		echo "Hi"
+		fi
+	i=$((i+1))
+done
