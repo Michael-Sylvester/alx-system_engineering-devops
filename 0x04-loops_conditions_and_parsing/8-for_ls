@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#Print the content of a directory with a loop
+list=$(ls)
+for i in $list
+do
+	echo "$i"
+done
