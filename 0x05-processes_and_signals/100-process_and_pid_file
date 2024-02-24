@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#print message ifinately every 2 seconds
+echo "$$" > /var/run/myscript.pid
+
+trap 'echo "I hate the kill command"' SIGTERM
+trap 'echo "Y U no love me?!"' SIGINT
+trap 'rm /var/run/myscript.pid; quit' SIGQUIT,SIGTERM
+i=0
+while [ $i -lt 10 ]; do	
+	echo "To infinity and beyond"
+	sleep 2
+done
