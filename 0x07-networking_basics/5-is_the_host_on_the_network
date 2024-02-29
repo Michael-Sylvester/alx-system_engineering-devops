@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#Ping the wesite given in the argimeny 5 times or print message
+
+if [ $# -eq 1 ]; then
+	ping $1 -c 5
+else
+	echo "Usage: 5-is_the_host_on_the_network {IP_ADDRESS}"
+fi
+
+
