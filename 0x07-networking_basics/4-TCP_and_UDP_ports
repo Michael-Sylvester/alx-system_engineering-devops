@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#Display listening sockets for TCP/UDP packets
+
+netstat -lntu
+
+# Display PID and program name
+echo -e "\nActive UNIX domain sockets (only servers)"
+lsof -i -P -n | grep LISTEN
