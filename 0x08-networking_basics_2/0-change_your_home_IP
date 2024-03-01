@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 #Change local host and faebook ip in hosts file
 # Copy the existing hosts file to a new location
 cp /etc/hosts ~/hosts.new
