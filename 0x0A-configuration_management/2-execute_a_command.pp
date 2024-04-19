@@ -2,5 +2,5 @@
 
 exec{
   'terminate killmeow':
-    command => '/usr/bin/pkill killmeow',
+    command => '/usr/bin/pkill killmeow'
 }
