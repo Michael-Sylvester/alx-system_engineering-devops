@@ -1,8 +1,8 @@
 # execute command to kill process killmeow
 
 exec{
-  'terminate killmeow':
-    command => 'pkill killmeow',
+  'terminate killmenow':
+    command => 'pkill killmenow',
     path    => ['/bin', '/usr/bin'],
-    onlyif  => 'pgrep killmeow',
+    onlyif  => 'pgrep killmenow',
 }
