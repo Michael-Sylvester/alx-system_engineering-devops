@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 #Generate ssh keypair called school
 
-ssh-keygen -t rsa -C "school" -b 4096 -N "betty" -f "$HOME/.ssh/school"
+ssh-keygen -t rsa -b 4096 -N "betty" -f "./school"
