@@ -17,6 +17,12 @@
 
 Include /etc/ssh/ssh_config.d/*.conf
 
+Host 54.160.115.226
+    HostName 54.160.115.226
+    User ubuntu
+    PasswordAuthentication no
+    IdentityFile ~/.ssh/0-RSA_public_key
+
 Host *
 #   ForwardAgent no
 #   ForwardX11 no
