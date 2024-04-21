@@ -2,5 +2,7 @@
 
 exec{
   'terminate killmeow':
-    command => '/usr/bin/pkill killmeow'
+    command => 'pkill killmeow',
+    path    => ['/bin', '/usr/bin'],
+    onlyif  => 'pgrep killmeow',
 }
