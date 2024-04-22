@@ -1,19 +1,13 @@
 #Puppet code to remove passwaord athentication form ssh client config
 
-file { '~/etc/ssh/ssh_config':
-  ensure  => present,
-  mode    => '0600',
-  content => "
-Include /etc/ssh/ssh_config.d/*.conf
+file_line { 'Turn off passwd auth':
+  path  => '/etc/ssh/sshd_config',
+  line  => 'PasswordAuthentication no',
+  match => '^#?PasswordAuthentication',
+}
 
-Host ALX-server
-    HostName 54.160.115.226
-    User ubuntu
-    PasswordAuthentication no
-    IdentityFile ~/.ssh/school
-
-Host *
-    PasswordAuthentication no
-    IdentityFile ~/.ssh/school
-  ",
-  }
+file_line { 'Declare identity file':
+  path  => '/etc/ssh/ssh_config',
+  line  => 'IdentityFile ~/.ssh/school',
+  match => '^#?IdentityFile',
+}
