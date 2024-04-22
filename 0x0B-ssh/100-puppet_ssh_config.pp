@@ -3,9 +3,7 @@
 file { '~/etc/ssh/ssh_config':
   ensure  => present,
   mode    => '0600',
-  owner   => 'user',
-  group   => 'user',
-    content => "
+  content => "
 Include /etc/ssh/ssh_config.d/*.conf
 
 Host ALX-server
