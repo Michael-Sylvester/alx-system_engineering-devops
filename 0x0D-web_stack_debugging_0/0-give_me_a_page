@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#This script contains the commnand used to ensure apache server was responsive.
+
+service apache2 start
