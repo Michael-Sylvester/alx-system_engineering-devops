@@ -5,9 +5,9 @@ package{'nginx':
   
 }
 
-file{'default':
-  ensure  => present,
-  content => "server {
+file{'/etc/nginx/sites-available/default':
+  ensure   => present,
+  content  => "server {
     listen 80 default;
     listen [::]:80;
 
@@ -24,6 +24,14 @@ file{'default':
         try_files \$uri \$uri/ =404;
     }
 
-}"
+}",
+}
 
+file{'/var/www/html/index.html':
+  ensure => present,
+  content => "Hello World!",
+}
+
+exec{'restart nginx':
+  command => 'service nginx restart',
 }
