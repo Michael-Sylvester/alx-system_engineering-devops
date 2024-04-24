@@ -19,8 +19,7 @@ cat << EOF > /var/www/html/errors/404.html
     <title>404 Not Found</title>
 </head>
 <body>
-    <h1>Oops, my bad</h1>
-    <p>The page you are looking for could not be found.</p>
+    <p>Ceci n'est pas une page</p>
 </body>
 </html>
 EOF
