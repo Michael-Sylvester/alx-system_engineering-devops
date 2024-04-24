@@ -4,28 +4,16 @@
 apt-get update
 apt-get install nginx -y
 
-# Create a directory for the custom error pages
-mkdir -p /var/www/html/errors
-
 sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
 
 # Create the custom 404 error page
-cat << EOF > /var/www/html/errors/404.html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 Not Found</title>
-</head>
-<body>
-    <p>Ceci n'est pas une page</p>
-</body>
-</html>
+cat << EOF > /var/www/html/404.html
+Ceci n'est pas une page
 EOF
 
 # Update the Nginx configuration to use the custom error page
-sed -i 's/#error_page 404 \/404.html;/error_page 404 \/errors\/404.html;/g' /etc/nginx/sites-available/default
+sed -i '/location \/ {/a \
+\    error_page 404 /404.html;\n' /etc/nginx/sites-available/default
 
 # Restart Nginx to apply the changes
 service nginx restart
