@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Install Nginx on the server with redirect to youtube
+
+apt-get update
+apt-get install nginx -y
+
+# Configure Nginx to listen on port 80
+sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
+
+# Set up redirection in the Nginx configuration file
+cat <<EOF
+ EOF > /etc/nginx/sites-available/default
+server {
+    listen 80;
+    listen [::]:80;
+
+    root /var/www/html;
+    index index.html index.htm;
+
+    server_name _;
+
+    location /redirect_me {
+        return 301 https://www.michael
+    }
+
+}
+EOF
+
+# Restart Nginx to apply the changes
+service nginx restart
+
+# Create a temporary index.html file containing "Hello World!"
+echo "Hello World!" > /var/www/html/index.html
+
+# Create a temporary 301.html file containing "Hello World!"
+echo "301 Moved Permanently" > /var/www/html/301.html
+
+# Check if Nginx is running and serving "Hello World!" on port 80
+curl -s localhost | grep -q "Hello World!"
