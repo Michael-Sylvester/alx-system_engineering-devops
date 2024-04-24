@@ -1,8 +1,13 @@
 # Install Nginx, server should listen on port 80 and redirect queries to /redirect_me
 
 package{'nginx':
-  ensure => present,
-  
+  ensure => installed,
+}
+
+service{'nginx':
+  ensure => running,
+  enable => true,
+  require => Package['nginx'],
 }
 
 file{'/etc/nginx/sites-available/default':
@@ -17,7 +22,7 @@ file{'/etc/nginx/sites-available/default':
     server_name _;
 
     location /redirect_me {
-        return 301 /x
+        return 301 http://michaelsylvester.tech
     }
 
     location / {
