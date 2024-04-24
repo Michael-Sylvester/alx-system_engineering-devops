@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Transfere file to server
 
 if [ "$#" -lt 4 ]; then
@@ -17,5 +17,3 @@ scp_cmd="scp -o StrictHostKeyChecking=no -i $ssh_key $file_path $username@$serve
 
 # Transfer the file
 $scp_cmd
-
-exit 0
