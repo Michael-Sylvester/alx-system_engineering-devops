@@ -16,8 +16,5 @@ echo "server {
     }
 }" > /etc/nginx/sites-available/default
 
-# Create temp file for html index
-echo "Hello World!" > /var/www/html/index.html
-
 # Restart Nginx to apply the changes
 service nginx restart
