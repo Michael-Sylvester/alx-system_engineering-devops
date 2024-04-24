@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 #This script contains the commnand used to ensure apache server was responsive
 
+echo "ServerName localhost" >> /etc/apache2.conf
 service apache2 start
