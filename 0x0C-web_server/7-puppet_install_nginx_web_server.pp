@@ -22,11 +22,12 @@ file{'/etc/nginx/sites-available/default':
     server_name _;
 
     location /redirect_me {
-        return 301 http://michaelsylvester.tech
+      return 301 http://michaelsylvester.tech;
     }
 
     location / {
-        try_files \$uri \$uri/ =404;
+      return 200 'Hello World!';
+      add_header Content-Type text/plain;
     }
 
 }",
