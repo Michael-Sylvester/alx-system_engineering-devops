@@ -1,4 +1,4 @@
-
+# Install nginx and set it up
 package { 'nginx':
   ensure => installed,
 }
