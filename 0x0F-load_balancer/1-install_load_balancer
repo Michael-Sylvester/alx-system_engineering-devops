@@ -1,20 +1,11 @@
 #!/usr/bin/env bash
 #Install haproxy load balancer to mediate connections to web-01 and web-02
 
-#get PPA for installing haproxy
-apt-get install --no-install-recommends software-properties-common
-add-apt-repository ppa:vbernat/haproxy-2.8
-# Update the package lists for upgrades and new package installations
 sudo apt-get update
 
 # Install HAproxy
-sudo apt-get install -y haproxy=2.8\*
+sudo apt-get install -y haproxy
 
-# Enable HAproxy to be managed via an init script
-sudo systemctl enable haproxy
-
-#create a backup incase of anything
-sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.backup
 # Configure HAproxy
 cat << EOF | sudo tee /etc/haproxy/haproxy.cfg
 global
@@ -47,5 +38,7 @@ backend http_back
    server web2 100.25.139.174:80 check
 EOF
 
+# Enable HAproxy to be managed via an init script
+service haproxy enable
 # Restart HAproxy to apply the changes
-sudo systemctl restart haproxy
+service haproxy start
