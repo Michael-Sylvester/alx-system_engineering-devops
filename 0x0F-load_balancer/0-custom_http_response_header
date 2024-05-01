@@ -3,10 +3,13 @@
 # shellcheck disable=SC2154
 
 # Update the package lists for upgrades and new package installations
-sudo apt-get update
+apt-get update
 
 # Install Nginx
-sudo apt-get install -y nginx
+apt-get install -y nginx
+
+# Configure Nginx to listen on port 80
+sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
 
 # Get the hostname of the server
 HOSTNAME=$(hostname)
@@ -17,7 +20,41 @@ echo "add_header X-Served-By $HOSTNAME;" | sudo tee /etc/nginx/snippets/custom-h
 # Modify the Nginx default configuration file to include the custom header
 sudo sed -i '/server_name _;/a include snippets/custom-header.conf;' /etc/nginx/sites-available/default
 
+# Set up redirection in the Nginx configuration file
+cat << EOF > /etc/nginx/sites-available/default
+server {
+    listen 80;
+    listen [::]:80;
+
+    root /var/www/html;
+    index index.html index.htm;
+
+    server_name _;
+
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+
+        location / {
+        try_files \$uri \$uri/ =404;
+    }
+
+}
+EOF
+
+# Create the custom 404 error page
+cat << EOF > /var/www/html/404.html
+Ceci n'est pas une page
+EOF
+
+# Update the Nginx configuration to use the custom error page
+sed -i '/location \/ {/a \
+\    error_page 404 /404.html;\n' /etc/nginx/sites-available/default
+
 # Test the configuration
 sudo nginx -t
 
 sudo systemctl reload nginx
+
+# Create a temporary index.html file containing "Hello World!"
+echo "Hello World!" > /var/www/html/index.html

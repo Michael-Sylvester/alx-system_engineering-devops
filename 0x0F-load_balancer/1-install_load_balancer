@@ -8,6 +8,8 @@ sudo apt-get install -y haproxy
 # Enable HAproxy to be managed via an init script
 sudo systemctl enable haproxy
 
+#create a backup incase of anything
+sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.backup
 # Configure HAproxy
 cat << EOF | sudo tee /etc/haproxy/haproxy.cfg
 global
