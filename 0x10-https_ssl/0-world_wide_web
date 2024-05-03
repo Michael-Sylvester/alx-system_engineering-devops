@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+get_record() {
+    local subdomain="$1"
+	local record_type=$(dig "$subdomain" +short | awk -F' ' '/ANSWER/ {print $4}')
+	local destination=$(dig "$subdomain" +short | awk -F' ' '/ANSWER/ {print $5}')
+	echo "The subdomain $subdomain is a $record_type record and points to $destination"
+}
+
+if [ -z "$1" ]; then
+    echo "Usage: $0 domain [subdomain]"
+	exit 1
+fi
+
+domain="$1"
+subdomain="$2"
+
+if [ -z "$2" ]; then
+    get_record "www.$domain"
+	get_record "lb-01.$domain"
+	get_record "web-01.$domain"
+	get_record "web-02.$domain"
+else
+	get_record "$subdomain.$domain"
+fi
