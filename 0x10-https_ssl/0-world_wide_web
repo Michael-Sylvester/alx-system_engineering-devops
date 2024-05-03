@@ -2,24 +2,31 @@
 
 get_record() {
     local subdomain="$1"
-	local record_type=$(dig "$subdomain" +short | awk -F' ' '/ANSWER/ {print $4}')
-	local destination=$(dig "$subdomain" +short | awk -F' ' '/ANSWER/ {print $5}')
-	echo "The subdomain $subdomain is a $record_type record and points to $destination"
+    local domain="$2"
+    local response=$(dig "$subdomain.$domain" +short)
+
+    if [ -z "$response" ]; then
+        echo "No record found for $subdomain.$domain"
+    else
+        local record_type=$(dig "$subdomain.$domain" | grep $response | awk '{print $4}')
+        local destination=$(echo "$response" | awk '{print $1}')
+        echo "The subdomain $subdomain.$domain is a $record_type record and points to $destination"
+    fi
 }
 
 if [ -z "$1" ]; then
     echo "Usage: $0 domain [subdomain]"
-	exit 1
+    exit 1
 fi
 
 domain="$1"
 subdomain="$2"
 
-if [ -z "$2" ]; then
-    get_record "www.$domain"
-	get_record "lb-01.$domain"
-	get_record "web-01.$domain"
-	get_record "web-02.$domain"
+if [ -z "$subdomain" ]; then
+    get_record "www" "$domain"
+    get_record "lb-01" "$domain"
+    get_record "web-01" "$domain"
+    get_record "web-02" "$domain"
 else
-	get_record "$subdomain.$domain"
+    get_record "$subdomain" "$domain"
 fi
