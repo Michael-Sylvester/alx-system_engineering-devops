@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+#Bash script to find the DNS record type of a domain name
 get_record() {
     local subdomain="$1"
     local domain="$2"
