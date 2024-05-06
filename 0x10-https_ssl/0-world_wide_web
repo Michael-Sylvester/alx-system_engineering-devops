@@ -2,7 +2,7 @@
 #Bash script to find the DNS record type of a domain name
 get_record() {
     local subdomain="$1"
-    local domain="$2"
+    local domain="$2"ssh
     local response=$(dig "$subdomain.$domain" +short)
 
     if [ -z "$response" ]; then
