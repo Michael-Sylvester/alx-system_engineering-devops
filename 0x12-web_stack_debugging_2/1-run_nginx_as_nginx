@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Change the user running Nginx to nginx
+
+USERNAME="nginx"
+
+# Check if the user exists
+if id -u "$USERNAME" >/dev/null 2>&1; then
+    echo "User exists"
+	else
+	    echo "User does not exist"
+		    exit 1
+			fi
+
+
+NGINX_CONF="/etc/nginx/nginx.conf"
+
+# Change the user in the Nginx configuration file
+sudo sed -i "s/user .*/user $USERNAME;/" $NGINX_CONF
+
+
+sudo systemctl restart nginx
+
+echo "Nginx is now running as $USERNAME"
