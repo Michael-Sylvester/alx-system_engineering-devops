@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#Run a single command as a nother user
+
+sudo -u $1 whoami
