@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Change the user running Nginx to nginx
-USERNAME="nginx"
-if id -u "$USERNAME" >/dev/null 2>&1; then
-	sudo sed -i "s/user .*/user $USERNAME;/" /etc/nginx/nginx.conf
-	sudo systemctl restart nginx
+NGINX_CONF="/etc/nginx/nginx.conf"
+if id -u "nginx" >/dev/null 2>&1; then
+  sudo sed -i "s/user .*/user $USERNAME;/" $NGINX_CONF
+  sudo systemctl restart nginx
 fi
