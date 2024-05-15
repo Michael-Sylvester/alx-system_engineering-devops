@@ -12,7 +12,7 @@ if id -u "$USERNAME" >/dev/null 2>&1; then
 			fi
 
 
-NGINX_CONF="/etc/nginx/nginx.conf"
+NGINX_CONF="/etc/nginx/sites-available/default"
 
 # Change the user in the Nginx configuration file
 sudo sed -i "s/user .*/user $USERNAME;/" $NGINX_CONF
