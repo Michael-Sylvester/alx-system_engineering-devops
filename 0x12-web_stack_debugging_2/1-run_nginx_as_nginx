@@ -12,10 +12,14 @@ if id -u "$USERNAME" >/dev/null 2>&1; then
 			fi
 
 
-NGINX_CONF="/etc/nginx/sites-available/default"
+NGINX_CONF="/etc/nginx/nginx.conf"
+DEFAULT_CONF="/etc/nginx/sites-available/default"
 
 # Change the user in the Nginx configuration file
 sudo sed -i "s/user .*/user $USERNAME;/" $NGINX_CONF
+
+sudo sed -i "s/listen 80 default_server;/listen 8080 default_server;/" $DEFAULT_CONF
+sudo sed -i "s/listen \[::\]:80 default_server;/listen \[::\]:8080 default_server;/" $DEFAULT_CONF
 
 
 sudo systemctl restart nginx
