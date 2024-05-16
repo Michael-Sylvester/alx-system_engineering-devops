@@ -6,10 +6,10 @@ USERNAME="nginx"
 # Check if the user exists
 if id -u "$USERNAME" >/dev/null 2>&1; then
     echo "User exists"
-	else
-	    echo "User does not exist"
-		    exit 1
-			fi
+else
+    echo "User does not exist"
+    exit 1
+fi
 
 
 NGINX_CONF="/etc/nginx/nginx.conf"
@@ -22,6 +22,6 @@ sudo sed -i "s/listen 80 default_server;/listen 8080 default_server;/" $DEFAULT_
 sudo sed -i "s/listen \[::\]:80 default_server;/listen \[::\]:8080 default_server;/" $DEFAULT_CONF
 
 
-sudo systemctl restart nginx
+sudo service nginx restart
 
 echo "Nginx is now running as $USERNAME"
