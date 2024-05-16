@@ -21,7 +21,13 @@ sudo sed -i "s/user .*/user $USERNAME;/" $NGINX_CONF
 sudo sed -i "s/listen 80 default_server;/listen 8080 default_server;/" $DEFAULT_CONF
 sudo sed -i "s/listen \[::\]:80 default_server;/listen \[::\]:8080 default_server;/" $DEFAULT_CONF
 
-
+sudo service apache2 stop
+pids=$(pgrep apache2)
+for pid in $pids
+do
+    echo "Killing process $pid"
+    sudo kill -9 $pid
+    done
 sudo service nginx restart
 
 echo "Nginx is now running as $USERNAME"
