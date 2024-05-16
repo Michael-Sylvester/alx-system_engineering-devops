@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
-
-# MySQL user
+# Copy all of databases in server for manual backup
 USER='root'
 
-# MySQL password
 PASSWORD=$1
 
 # Date format for the backup file
 DATE=$(date +%d-%m-%Y)
 
-# MySQL dump file name
 DUMP_FILE='backup.sql'
 
 # Compressed file name
@@ -21,7 +18,6 @@ mysqldump -u ${USER} -p${PASSWORD} --all-databases > ${DUMP_FILE}
 # Compress the dump file
 tar -czvf ${ARCHIVE_FILE} ${DUMP_FILE}
 
-# Remove the dump file
 rm ${DUMP_FILE}
 
 echo "Backup created: ${ARCHIVE_FILE}"
