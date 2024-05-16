@@ -11,7 +11,7 @@ pids=$(pgrep apache2)
 for pid in $pids
 do
     echo "Killing process $pid"
-    sudo kill -9 $pid
+    sudo kill -9 "$pid"
     done
 sudo service nginx restart
 
