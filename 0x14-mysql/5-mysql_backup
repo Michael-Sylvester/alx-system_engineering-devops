@@ -18,6 +18,4 @@ mysqldump -u ${USER} -p${PASSWORD} --all-databases > ${DUMP_FILE}
 # Compress the dump file
 tar -czvf ${ARCHIVE_FILE} ${DUMP_FILE}
 
-rm ${DUMP_FILE}
-
 echo "Backup created: ${ARCHIVE_FILE}"
