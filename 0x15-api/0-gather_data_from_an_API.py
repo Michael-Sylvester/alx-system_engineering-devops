@@ -25,7 +25,7 @@ def todo_list_progress(employee_id):
  tasks({done_tasks}/{total_tasks}):')
     for todo in todos:
         if todo['completed']:
-            print('\t ' + todo['title'])
+            print('\t' + todo['title'])
 
 
 # Test the function with an example employee ID
