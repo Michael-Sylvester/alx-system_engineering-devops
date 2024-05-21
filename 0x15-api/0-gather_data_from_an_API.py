@@ -1,14 +1,35 @@
 #!/usr/bin/python3
-"""Returns to-do list information for a given employee ID."""
+"""Module on using APIs"""
 import requests
 import sys
 
-if __name__ == "__main__":
-    url = "https://jsonplaceholder.typicode.com/"
-    user = requests.get(url + "users/{}".format(sys.argv[1])).json()
-    todos = requests.get(url + "todos", params={"userId": sys.argv[1]}).json()
 
-    completed = [t.get("title") for t in todos if t.get("completed") is True]
-    print("Employee {} is done with tasks({}/{}):".format(
-        user.get("name"), len(completed), len(todos)))
-    [print("\t {}".format(c)) for c in completed]
+def todo_list_progress(employee_id):
+    # Fetch the employee's TODO list
+    todos = requests.get(
+        f'https://jsonplaceholder.typicode.com/users/{employee_id}/todos'
+    ).json()
+
+    # Fetch the employee's details
+    employee = requests.get(
+        f'https://jsonplaceholder.typicode.com/users/{employee_id}'
+    ).json()
+
+    # Calculate the progress
+    total_tasks = len(todos)
+    done_tasks = len([todo for todo in todos if todo['completed']])
+    employee_name = employee['name']
+
+    # Display the progress
+    print(f'Employee {employee_name} is done with\
+ tasks({done_tasks}/{total_tasks}):')
+    for todo in todos:
+        if todo['completed']:
+            print('\t {}'.format(todo['title']))
+
+
+# Test the function with an example employee ID
+if len(sys.argv) > 1 and sys.argv[1].isdigit():
+    todo_list_progress(int(sys.argv[1]))
+else:
+    todo_list_progress(1)
