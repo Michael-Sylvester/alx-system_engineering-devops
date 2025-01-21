@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Ignore SC2154 for shellcheck
 # shellcheck disable=SC2154
 
