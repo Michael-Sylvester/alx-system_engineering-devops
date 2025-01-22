@@ -1,12 +1,21 @@
 #!/usr/bin/env bash
-#install HAproxy load balancer and ensure round-robin managment of web01 and web02
-apt-get update
+# Configure HAProxy for round-robin load balancing between 414383-web-01 and 414383-web-02
 
-# Install HAProxy
-apt-get install -y haproxy
+set -e  # Exit immediately if a command exits with a non-zero status
+
+# Update the system and install HAProxy
+echo "Updating system and installing HAProxy..."
+sudo apt-get update -y
+sudo apt-get install -y haproxy
+
+# Ensure the hostnames are properly set
+echo "Configuring hostnames..."
+sudo hostnamectl set-hostname "414383-web-$(hostname | grep -o '[0-9]*$')"
+echo "127.0.1.1 $(hostname)" | sudo tee -a /etc/hosts
 
 # Create HAProxy configuration file
-cat <<EOF | sudo tee /etc/haproxy/haproxy.cfg
+echo "Configuring HAProxy..."
+sudo bash -c 'cat <<EOF > /etc/haproxy/haproxy.cfg
 global
     log /dev/log local0
     log /dev/log local1 notice
@@ -22,10 +31,10 @@ defaults
     mode http
     option httplog
     option dontlognull
-    timeout connect 5000
-    timeout client 50000
-    timeout server 50000
-	errorfile 400 /etc/haproxy/errors/400.http
+    timeout connect 5000ms
+    timeout client 50000ms
+    timeout server 50000ms
+    errorfile 400 /etc/haproxy/errors/400.http
     errorfile 403 /etc/haproxy/errors/403.http
     errorfile 408 /etc/haproxy/errors/408.http
     errorfile 500 /etc/haproxy/errors/500.http
@@ -40,12 +49,21 @@ frontend http_front
 
 backend http_back
     balance roundrobin
-    server web-01 54.160.115.226:80 check
-    server web-02 100.25.139.174:80 check
-EOF
+    server 414383-web-01 34.202.158.29:80 check
+    server 414383-web-02 18.235.234.223:80 check
+EOF'
 
-# Enable and start HAProxy service
-service haproxy enable
-service haproxy start
+# Enable and start the HAProxy service
+echo "Enabling and starting HAProxy..."
+sudo service haproxy enable
+sudo service haproxy restart
 
-echo "HAProxy has been installed and configured successfully."
+# Verify HAProxy is running
+if service haproxy status | grep -q "active (running)"; then
+    echo "HAProxy is running successfully."
+else
+    echo "HAProxy failed to start. Check logs for details." >&2
+    exit 1
+fi
+
+echo "HAProxy installation and configuration completed successfully."
